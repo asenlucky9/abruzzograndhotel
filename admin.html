@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Abruzzo Grand Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="admin-styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-hotel me-2"></i>
+                Abruzzo Grand Hotel - Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>View Website
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-5">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showDashboard()">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showBookings()">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                Bookings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showRooms()">
+                                <i class="fas fa-bed me-2"></i>
+                                Room Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showCustomers()">
+                                <i class="fas fa-users me-2"></i>
+                                Customers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showMessages()">
+                                <i class="fas fa-envelope me-2"></i>
+                                Messages
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSettings()">
+                                <i class="fas fa-cog me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showContentManagement()">
+                                <i class="fas fa-edit me-2"></i>
+                                Content Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showGuestRegistry()">
+                                <i class="fas fa-clipboard-list me-2"></i>
+                                Guest Registry
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="pt-5">
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Dashboard</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <div class="btn-group me-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="refreshDashboard()">
+                                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Cards -->
+                        <div class="row mb-4">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Total Bookings</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="total-bookings">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Active Bookings</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="active-bookings">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    Available Rooms</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="available-rooms">9</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-bed fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    New Messages</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="new-messages">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Bookings -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Recent Bookings</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="recent-bookings-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Guest Name</th>
+                                                        <th>Room Type</th>
+                                                        <th>Check-in</th>
+                                                        <th>Check-out</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="recent-bookings-body">
+                                                    <!-- Recent bookings will be loaded here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bookings Section -->
+                    <div id="bookings-section" style="display: none;">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Bookings Management</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <div class="btn-group me-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="exportBookings()">
+                                        <i class="fas fa-download me-1"></i>Export
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <select class="form-select" id="status-filter">
+                                    <option value="">All Status</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="room-filter">
+                                    <option value="">All Rooms</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Executive">Executive</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" id="date-filter" placeholder="Filter by date">
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary" onclick="applyFilters()">
+                                    <i class="fas fa-filter me-1"></i>Apply Filters
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Bookings Table -->
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="bookings-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Guest Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Room Type</th>
+                                                <th>Check-in</th>
+                                                <th>Check-out</th>
+                                                <th>Guests</th>
+                                                <th>Total Price</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bookings-body">
+                                            <!-- Bookings will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                                         <!-- Room Management Section -->
+                     <div id="rooms-section" style="display: none;">
+                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                             <h1 class="h2">Room Management</h1>
+                             <div class="btn-toolbar mb-2 mb-md-0">
+                                 <button class="btn btn-primary" onclick="addRoom()">
+                                     <i class="fas fa-plus me-1"></i>Add Room
+                                 </button>
+                                 <button class="btn btn-success" onclick="saveRoomChanges()">
+                                     <i class="fas fa-save me-1"></i>Save Changes
+                                 </button>
+                                 <button class="btn btn-info" onclick="exportRoomData()">
+                                     <i class="fas fa-download me-1"></i>Export
+                                 </button>
+                             </div>
+                         </div>
+
+                         <!-- Room Statistics Overview -->
+                         <div class="row mb-4">
+                             <div class="col-md-3 mb-3">
+                                 <div class="card bg-primary text-white">
+                                     <div class="card-body">
+                                         <h5 class="card-title">Total Rooms</h5>
+                                         <h2 id="total-rooms-count">9</h2>
+                                         <p class="card-text">All room types</p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-3 mb-3">
+                                 <div class="card bg-success text-white">
+                                     <div class="card-body">
+                                         <h5 class="card-title">Available</h5>
+                                         <h2 id="available-rooms-count">9</h2>
+                                         <p class="card-text">Ready for guests</p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-3 mb-3">
+                                 <div class="card bg-warning text-dark">
+                                     <div class="card-body">
+                                         <h5 class="card-title">Occupied</h5>
+                                         <h2 id="occupied-rooms-count">0</h2>
+                                         <p class="card-text">Currently occupied</p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-3 mb-3">
+                                 <div class="card bg-danger text-white">
+                                     <div class="card-body">
+                                         <h5 class="card-title">Maintenance</h5>
+                                         <h2 id="maintenance-rooms-count">0</h2>
+                                         <p class="card-text">Under maintenance</p>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <!-- Room Type Management -->
+                         <div class="row mb-4">
+                             <div class="col-md-4 mb-4">
+                                 <div class="card">
+                                     <div class="card-header">
+                                         <h5 class="mb-0">Standard Rooms</h5>
+                                         <button class="btn btn-sm btn-outline-primary" onclick="editRoomType('Standard')">
+                                             <i class="fas fa-edit"></i> Edit
+                                         </button>
+                                     </div>
+                                     <div class="card-body">
+                                         <p class="card-text"><strong>Total:</strong> <span id="standard-total">4</span></p>
+                                         <p class="card-text"><strong>Available:</strong> <span id="standard-available">4</span></p>
+                                         <p class="card-text"><strong>Price:</strong> $<span id="standard-price-display">150</span>/night</p>
+                                         <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-4 mb-4">
+                                 <div class="card">
+                                     <div class="card-header">
+                                         <h5 class="mb-0">Deluxe Rooms</h5>
+                                         <button class="btn btn-sm btn-outline-primary" onclick="editRoomType('Deluxe')">
+                                             <i class="fas fa-edit"></i> Edit
+                                         </button>
+                                     </div>
+                                     <div class="card-body">
+                                         <p class="card-text"><strong>Total:</strong> <span id="deluxe-total">3</span></p>
+                                         <p class="card-text"><strong>Available:</strong> <span id="deluxe-available">3</span></p>
+                                         <p class="card-text"><strong>Price:</strong> $<span id="deluxe-price-display">250</span>/night</p>
+                                         <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-4 mb-4">
+                                 <div class="card">
+                                     <div class="card-header">
+                                         <h5 class="mb-0">Executive Rooms</h5>
+                                         <button class="btn btn-sm btn-outline-primary" onclick="editRoomType('Executive')">
+                                             <i class="fas fa-edit"></i> Edit
+                                         </button>
+                                     </div>
+                                     <div class="card-body">
+                                         <p class="card-text"><strong>Total:</strong> <span id="executive-total">2</span></p>
+                                         <p class="card-text"><strong>Available:</strong> <span id="executive-available">2</span></p>
+                                         <p class="card-text"><strong>Price:</strong> $<span id="executive-price-display">350</span>/night</p>
+                                         <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <!-- Individual Room Management -->
+                         <div class="row">
+                             <div class="col-12">
+                                 <div class="card shadow">
+                                     <div class="card-header">
+                                         <h5 class="mb-0"><i class="fas fa-bed me-2"></i>Individual Room Management</h5>
+                                     </div>
+                                     <div class="card-body">
+                                         <div class="table-responsive">
+                                             <table class="table table-striped">
+                                                 <thead>
+                                                     <tr>
+                                                         <th>Room Number</th>
+                                                         <th>Type</th>
+                                                         <th>Status</th>
+                                                         <th>Current Guest</th>
+                                                         <th>Check-in Date</th>
+                                                         <th>Check-out Date</th>
+                                                         <th>Last Cleaned</th>
+                                                         <th>Maintenance Notes</th>
+                                                         <th>Actions</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody id="individual-rooms-body">
+                                                     <!-- Individual rooms will be loaded here -->
+                                                 </tbody>
+                                             </table>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                    <!-- Customers Section -->
+                    <div id="customers-section" style="display: none;">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Customer Management</h1>
+                        </div>
+
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="customers-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Total Bookings</th>
+                                                <th>Last Visit</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="customers-body">
+                                            <!-- Customers will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages Section -->
+                    <div id="messages-section" style="display: none;">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Contact Messages</h1>
+                        </div>
+
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="messages-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
+                                                <th>Message</th>
+                                                <th>Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="messages-body">
+                                            <!-- Messages will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Section -->
+                    <div id="settings-section" style="display: none;">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Settings</h1>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5>Hotel Information</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="hotel-settings-form">
+                                            <div class="mb-3">
+                                                <label class="form-label">Hotel Name</label>
+                                                <input type="text" class="form-control" value="Abruzzo Grand Hotel" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Total Rooms</label>
+                                                <input type="number" class="form-control" value="9" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Hotel Rating</label>
+                                                <input type="text" class="form-control" value="3-Star Luxury" readonly>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5>System Settings</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Data Source</label>
+                                            <select class="form-select" id="data-source">
+                                                <option value="local">Local Storage (Demo)</option>
+                                                <option value="firebase">Firebase (Production)</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-primary" onclick="clearAllData()">
+                                                <i class="fas fa-trash me-1"></i>Clear All Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Management Section -->
+                    <div id="content-management-section" style="display: none;">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Content Management</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button class="btn btn-success" onclick="saveAllContent()">
+                                    <i class="fas fa-save me-1"></i>Save All Changes
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Hotel Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5><i class="fas fa-hotel me-2"></i>Hotel Information</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Hotel Name</label>
+                                                    <input type="text" class="form-control" id="hotel-name" value="Abruzzo Grand Hotel">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Hotel Rating</label>
+                                                    <select class="form-select" id="hotel-rating">
+                                                        <option value="1-Star">1-Star</option>
+                                                        <option value="2-Star">2-Star</option>
+                                                        <option value="3-Star Luxury" selected>3-Star Luxury</option>
+                                                        <option value="4-Star">4-Star</option>
+                                                        <option value="5-Star Luxury">5-Star Luxury</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Hotel Tagline</label>
+                                                    <input type="text" class="form-control" id="hotel-tagline" value="Experience luxury and comfort in the heart of Abruzzo">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Contact Email</label>
+                                                    <input type="email" class="form-control" id="contact-email" value="info@abruzzograndhotel.com">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Contact Phone</label>
+                                                    <input type="tel" class="form-control" id="contact-phone" value="+39 123 456 7890">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Hotel Address</label>
+                                                    <textarea class="form-control" id="hotel-address" rows="3">Via Roma 123, 65000 Abruzzo, Italy</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Room Management -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5><i class="fas fa-bed me-2"></i>Room Management</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h6>Standard Rooms</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Price per Night</label>
+                                                    <input type="number" class="form-control" id="standard-price" value="150">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                    <textarea class="form-control" id="standard-description" rows="3">Comfortable and cozy rooms with modern amenities, perfect for a relaxing stay.</textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Features (comma separated)</label>
+                                                    <input type="text" class="form-control" id="standard-features" value="Queen Bed, Private Bathroom, Free WiFi, TV, Air Conditioning">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6>Deluxe Rooms</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Price per Night</label>
+                                                    <input type="number" class="form-control" id="deluxe-price" value="250">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                    <textarea class="form-control" id="deluxe-description" rows="3">Spacious rooms with premium amenities and stunning views, offering the perfect blend of luxury and comfort.</textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Features (comma separated)</label>
+                                                    <input type="text" class="form-control" id="deluxe-features" value="King Bed, Private Balcony, Premium Bathroom, Free WiFi, Smart TV, Air Conditioning, Mini Bar">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6>Executive Rooms</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Price per Night</label>
+                                                    <input type="number" class="form-control" id="executive-price" value="350">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                    <textarea class="form-control" id="executive-description" rows="3">Ultimate luxury with exclusive amenities, private terrace, and personalized service for the discerning traveler.</textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Features (comma separated)</label>
+                                                    <input type="text" class="form-control" id="executive-features" value="King Bed, Private Terrace, Luxury Bathroom, Free WiFi, Smart TV, Air Conditioning, Mini Bar, Room Service, Concierge">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5><i class="fas fa-info-circle me-2"></i>About Section</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">About Title</label>
+                                            <input type="text" class="form-control" id="about-title" value="Welcome to Abruzzo Grand Hotel">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">About Description</label>
+                                            <textarea class="form-control" id="about-description" rows="5">Nestled in the heart of beautiful Abruzzo, our hotel offers a perfect blend of traditional Italian hospitality and modern luxury. With 9 elegantly appointed rooms, world-class amenities, and breathtaking views, we provide an unforgettable experience for every guest. Whether you're here for business or leisure, our dedicated staff ensures your stay is nothing short of exceptional.</textarea>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Feature 1 Title</label>
+                                                    <input type="text" class="form-control" id="feature1-title" value="Luxury Accommodations">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Feature 1 Description</label>
+                                                    <textarea class="form-control" id="feature1-description" rows="3">Elegantly designed rooms with premium amenities and stunning views.</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Feature 2 Title</label>
+                                                    <input type="text" class="form-control" id="feature2-title" value="Prime Location">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Feature 2 Description</label>
+                                                    <textarea class="form-control" id="feature2-description" rows="3">Centrally located with easy access to attractions and amenities.</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Feature 3 Title</label>
+                                                    <input type="text" class="form-control" id="feature3-title" value="Exceptional Service">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Feature 3 Description</label>
+                                                    <textarea class="form-control" id="feature3-description" rows="3">Dedicated staff committed to providing personalized attention.</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5><i class="fas fa-concierge-bell me-2"></i>Services Section</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6>Service 1</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Title</label>
+                                                    <input type="text" class="form-control" id="service1-title" value="Free WiFi">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Description</label>
+                                                    <textarea class="form-control" id="service1-description" rows="3">High-speed internet access throughout the hotel for your convenience.</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6>Service 2</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Title</label>
+                                                    <input type="text" class="form-control" id="service2-title" value="Room Service">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Description</label>
+                                                    <textarea class="form-control" id="service2-description" rows="3">24/7 room service with delicious local and international cuisine.</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6>Service 3</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Title</label>
+                                                    <input type="text" class="form-control" id="service3-title" value="Concierge">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Description</label>
+                                                    <textarea class="form-control" id="service3-description" rows="3">Professional concierge services to assist with reservations and local recommendations.</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6>Service 4</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Title</label>
+                                                    <input type="text" class="form-control" id="service4-title" value="Parking">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Service Description</label>
+                                                    <textarea class="form-control" id="service4-description" rows="3">Complimentary parking available for all guests.</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp Settings -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5><i class="fab fa-whatsapp me-2"></i>WhatsApp Settings</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">WhatsApp Number</label>
+                                                    <input type="tel" class="form-control" id="whatsapp-number" value="+39 123 456 7890">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Default Message</label>
+                                                    <textarea class="form-control" id="whatsapp-message" rows="3">Hello! I'm interested in booking a room at Abruzzo Grand Hotel. Could you please provide more information?</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">WhatsApp Enabled</label>
+                                                    <select class="form-select" id="whatsapp-enabled">
+                                                        <option value="true" selected>Yes</option>
+                                                        <option value="false">No</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Widget Position</label>
+                                                    <select class="form-select" id="whatsapp-position">
+                                                        <option value="bottom-right" selected>Bottom Right</option>
+                                                        <option value="bottom-left">Bottom Left</option>
+                                                        <option value="top-right">Top Right</option>
+                                                        <option value="top-left">Top Left</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                 </div>
+                     </div>
+
+                     <!-- Guest Registry Section -->
+                     <div id="guest-registry-section" style="display: none;">
+                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                             <h1 class="h2">Guest Registry & Check-in/Check-out Records</h1>
+                             <div class="btn-toolbar mb-2 mb-md-0">
+                                 <div class="btn-group me-2">
+                                     <button class="btn btn-success" onclick="manualCheckIn()">
+                                         <i class="fas fa-sign-in-alt me-1"></i>Manual Check-in
+                                     </button>
+                                     <button class="btn btn-warning" onclick="manualCheckOut()">
+                                         <i class="fas fa-sign-out-alt me-1"></i>Manual Check-out
+                                     </button>
+                                     <button class="btn btn-info" onclick="exportGuestRegistry()">
+                                         <i class="fas fa-download me-1"></i>Export Registry
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <!-- Current Guests (Checked In) -->
+                         <div class="row mb-4">
+                             <div class="col-12">
+                                 <div class="card shadow">
+                                     <div class="card-header bg-success text-white">
+                                         <h5 class="mb-0"><i class="fas fa-users me-2"></i>Currently Checked-In Guests</h5>
+                                     </div>
+                                     <div class="card-body">
+                                         <div class="table-responsive">
+                                             <table class="table table-striped">
+                                                 <thead>
+                                                     <tr>
+                                                         <th>Room</th>
+                                                         <th>Guest Name</th>
+                                                         <th>Email</th>
+                                                         <th>Phone</th>
+                                                         <th>Check-in Date</th>
+                                                         <th>Check-in Time</th>
+                                                         <th>Expected Check-out</th>
+                                                         <th>Duration</th>
+                                                         <th>Actions</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody id="current-guests-body">
+                                                     <!-- Current guests will be loaded here -->
+                                                 </tbody>
+                                             </table>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <!-- Guest Registry Filters -->
+                         <div class="row mb-3">
+                             <div class="col-md-3">
+                                 <select class="form-select" id="registry-status-filter">
+                                     <option value="">All Status</option>
+                                     <option value="checked-in">Currently Checked-in</option>
+                                     <option value="checked-out">Checked-out</option>
+                                     <option value="no-show">No Show</option>
+                                 </select>
+                             </div>
+                             <div class="col-md-3">
+                                 <input type="date" class="form-control" id="registry-date-filter" placeholder="Filter by date">
+                             </div>
+                             <div class="col-md-3">
+                                 <input type="text" class="form-control" id="registry-search" placeholder="Search guest name...">
+                             </div>
+                             <div class="col-md-3">
+                                 <button class="btn btn-primary" onclick="applyRegistryFilters()">
+                                     <i class="fas fa-filter me-1"></i>Apply Filters
+                                 </button>
+                                 <button class="btn btn-secondary" onclick="clearRegistryFilters()">
+                                     <i class="fas fa-times me-1"></i>Clear
+                                 </button>
+                             </div>
+                         </div>
+
+                         <!-- Complete Guest Registry -->
+                         <div class="row">
+                             <div class="col-12">
+                                 <div class="card shadow">
+                                     <div class="card-header">
+                                         <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Complete Guest Registry</h5>
+                                     </div>
+                                     <div class="card-body">
+                                         <div class="table-responsive">
+                                             <table class="table table-striped">
+                                                 <thead>
+                                                     <tr>
+                                                         <th>Booking ID</th>
+                                                         <th>Guest Name</th>
+                                                         <th>Room Type</th>
+                                                         <th>Check-in Date</th>
+                                                         <th>Check-in Time</th>
+                                                         <th>Check-out Date</th>
+                                                         <th>Check-out Time</th>
+                                                         <th>Duration</th>
+                                                         <th>Status</th>
+                                                         <th>Total Paid</th>
+                                                         <th>Actions</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody id="guest-registry-body">
+                                                     <!-- Guest registry will be loaded here -->
+                                                 </tbody>
+                                             </table>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </main>
+         </div>
+     </div>
+
+         <!-- Booking Details Modal -->
+     <div class="modal fade" id="bookingDetailsModal" tabindex="-1">
+         <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Booking Details</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body" id="booking-details-content">
+                     <!-- Booking details will be loaded here -->
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-success" onclick="confirmBooking()">Confirm Booking</button>
+                     <button type="button" class="btn btn-danger" onclick="cancelBooking()">Cancel Booking</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <!-- Manual Check-in Modal -->
+     <div class="modal fade" id="manualCheckInModal" tabindex="-1">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Manual Check-in</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form id="manual-checkin-form">
+                         <div class="mb-3">
+                             <label class="form-label">Select Booking</label>
+                             <select class="form-select" id="checkin-booking-select" required>
+                                 <option value="">Select a confirmed booking...</option>
+                             </select>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Room Number</label>
+                             <input type="text" class="form-control" id="checkin-room-number" placeholder="e.g., 101, 201, etc." required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Check-in Date</label>
+                             <input type="date" class="form-control" id="checkin-date" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Check-in Time</label>
+                             <input type="time" class="form-control" id="checkin-time" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Notes</label>
+                             <textarea class="form-control" id="checkin-notes" rows="3" placeholder="Any special notes or requests..."></textarea>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                     <button type="button" class="btn btn-success" onclick="processCheckIn()">
+                         <i class="fas fa-sign-in-alt me-1"></i>Check In Guest
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <!-- Manual Check-out Modal -->
+     <div class="modal fade" id="manualCheckOutModal" tabindex="-1">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Manual Check-out</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form id="manual-checkout-form">
+                         <div class="mb-3">
+                             <label class="form-label">Select Guest</label>
+                             <select class="form-select" id="checkout-guest-select" required>
+                                 <option value="">Select a checked-in guest...</option>
+                             </select>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Check-out Date</label>
+                             <input type="date" class="form-control" id="checkout-date" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Check-out Time</label>
+                             <input type="time" class="form-control" id="checkout-time" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Room Condition</label>
+                             <select class="form-select" id="room-condition">
+                                 <option value="excellent">Excellent</option>
+                                 <option value="good" selected>Good</option>
+                                 <option value="fair">Fair</option>
+                                 <option value="poor">Poor</option>
+                                 <option value="damaged">Damaged</option>
+                             </select>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Additional Charges</label>
+                             <input type="number" class="form-control" id="additional-charges" min="0" step="0.01" value="0">
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Notes</label>
+                             <textarea class="form-control" id="checkout-notes" rows="3" placeholder="Any checkout notes or feedback..."></textarea>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                     <button type="button" class="btn btn-warning" onclick="processCheckOut()">
+                         <i class="fas fa-sign-out-alt me-1"></i>Check Out Guest
+                     </button>
+                 </div>
+             </div>
+         </div>
+          </div>
+
+     <!-- Room Management Modals -->
+     <div class="modal fade" id="addRoomModal" tabindex="-1">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Add New Room</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form id="add-room-form">
+                         <div class="mb-3">
+                             <label class="form-label">Room Number</label>
+                             <input type="text" class="form-control" id="new-room-number" placeholder="e.g., 101, 201, etc." required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Room Type</label>
+                             <select class="form-select" id="new-room-type" required>
+                                 <option value="">Select room type...</option>
+                                 <option value="Standard">Standard</option>
+                                 <option value="Deluxe">Deluxe</option>
+                                 <option value="Executive">Executive</option>
+                             </select>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Floor</label>
+                             <input type="number" class="form-control" id="new-room-floor" placeholder="Floor number" min="1" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Capacity</label>
+                             <input type="number" class="form-control" id="new-room-capacity" placeholder="Number of guests" min="1" max="4" value="2" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Features</label>
+                             <textarea class="form-control" id="new-room-features" rows="3" placeholder="Room features (e.g., Balcony, Ocean View, etc.)"></textarea>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                     <button type="button" class="btn btn-primary" onclick="processAddRoom()">
+                         <i class="fas fa-plus me-1"></i>Add Room
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <div class="modal fade" id="editRoomTypeModal" tabindex="-1">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Edit Room Type</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form id="edit-room-type-form">
+                         <div class="mb-3">
+                             <label class="form-label">Room Type</label>
+                             <input type="text" class="form-control" id="edit-room-type-name" readonly>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Number of Rooms</label>
+                             <input type="number" class="form-control" id="edit-room-type-count" min="1" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Price per Night</label>
+                             <input type="number" class="form-control" id="edit-room-type-price" min="0" step="0.01" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Description</label>
+                             <textarea class="form-control" id="edit-room-type-description" rows="3" required></textarea>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Features</label>
+                             <input type="text" class="form-control" id="edit-room-type-features" placeholder="Comma separated features">
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Status</label>
+                             <select class="form-select" id="edit-room-type-status">
+                                 <option value="active">Active</option>
+                                 <option value="inactive">Inactive</option>
+                                 <option value="maintenance">Maintenance</option>
+                             </select>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                     <button type="button" class="btn btn-primary" onclick="processEditRoomType()">
+                         <i class="fas fa-save me-1"></i>Save Changes
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <div class="modal fade" id="editRoomModal" tabindex="-1">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Edit Room</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form id="edit-room-form">
+                         <div class="mb-3">
+                             <label class="form-label">Room Number</label>
+                             <input type="text" class="form-control" id="edit-room-number" readonly>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Room Type</label>
+                             <select class="form-select" id="edit-room-type" required>
+                                 <option value="Standard">Standard</option>
+                                 <option value="Deluxe">Deluxe</option>
+                                 <option value="Executive">Executive</option>
+                             </select>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Status</label>
+                             <select class="form-select" id="edit-room-status" required>
+                                 <option value="available">Available</option>
+                                 <option value="occupied">Occupied</option>
+                                 <option value="maintenance">Maintenance</option>
+                                 <option value="cleaning">Cleaning</option>
+                                 <option value="reserved">Reserved</option>
+                             </select>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Floor</label>
+                             <input type="number" class="form-control" id="edit-room-floor" min="1" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Capacity</label>
+                             <input type="number" class="form-control" id="edit-room-capacity" min="1" max="4" required>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Features</label>
+                             <textarea class="form-control" id="edit-room-features" rows="3"></textarea>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Maintenance Notes</label>
+                             <textarea class="form-control" id="edit-room-maintenance-notes" rows="3" placeholder="Any maintenance issues or notes..."></textarea>
+                         </div>
+                         <div class="mb-3">
+                             <label class="form-label">Last Cleaned</label>
+                             <input type="date" class="form-control" id="edit-room-last-cleaned">
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                     <button type="button" class="btn btn-primary" onclick="processEditRoom()">
+                         <i class="fas fa-save me-1"></i>Save Changes
+                     </button>
+                     <button type="button" class="btn btn-danger" onclick="deleteRoom()">
+                         <i class="fas fa-trash me-1"></i>Delete Room
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html> 

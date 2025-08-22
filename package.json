@@ -1,0 +1,36 @@
+{
+  "name": "abruzzo-grand-hotel",
+  "version": "1.0.0",
+  "description": "Professional website for Abruzzo Grand Hotel",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -o",
+    "dev": "live-server --port=8000",
+    "build": "echo 'No build process needed for static site'",
+    "deploy": "echo 'Deploy to your preferred hosting service'"
+  },
+  "keywords": [
+    "hotel",
+    "website",
+    "bootstrap",
+    "firebase",
+    "responsive",
+    "tourism",
+    "benin-city"
+  ],
+  "author": "Abruzzo Grand Hotel",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "netlify-cli": "^23.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/abruzzo-grand-hotel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/abruzzo-grand-hotel/issues"
+  },
+  "homepage": "https://abruzzograndhotel.com"
+}
